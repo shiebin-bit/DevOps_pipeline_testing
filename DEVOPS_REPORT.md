@@ -252,6 +252,8 @@ This step installs Node.js 16 and enables npm dependency caching.
 
 This command installs frontend dependencies based on `package-lock.json`. `npm ci` is used because it gives a clean and reproducible installation in CI.
 
+The Angular project includes an `.npmrc` file with `legacy-peer-deps=true`. This is needed because the demo application uses older Angular 13 dependencies, and newer npm versions enforce peer dependency rules more strictly.
+
 ```yaml
 - name: Run frontend Karma tests
   working-directory: AngularCRUD

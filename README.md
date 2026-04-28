@@ -143,6 +143,8 @@ Install dependencies:
 npm ci --prefix ./AngularCRUD
 ```
 
+The Angular project includes `AngularCRUD/.npmrc` with `legacy-peer-deps=true` because this is an older Angular 13 demo project and newer npm versions enforce peer dependency resolution more strictly.
+
 Run Karma/Jasmine tests in CI mode:
 
 ```sh
@@ -178,4 +180,3 @@ Each image is also tagged with the commit SHA.
 8. Show Docker image build and GHCR publish step.
 9. Run the application using Docker Compose.
 10. Open `http://localhost:4200` and demonstrate CRUD operations.
-

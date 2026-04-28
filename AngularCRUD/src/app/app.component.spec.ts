@@ -1,16 +1,30 @@
 import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { of } from 'rxjs';
 import { AppComponent } from './app.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ApiService } from './services/api.service';
 
 describe('AppComponent', () => {
+  const apiServiceMock = {
+    getBooks: () => of([]),
+    deleteBook: () => of({}),
+  };
+
+  const matDialogMock = {
+    open: () => ({
+      afterClosed: () => of(null),
+    }),
+  };
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
+      declarations: [AppComponent],
+      providers: [
+        { provide: ApiService, useValue: apiServiceMock },
+        { provide: MatDialog, useValue: matDialogMock },
       ],
-      declarations: [
-        AppComponent
-      ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   });
 
@@ -20,16 +34,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'AngularCRUD'`, () => {
+  it('should define the book table columns', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('AngularCRUD');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('AngularCRUD app is running!');
+    expect(app.displayedColumns).toContain('bookName');
+    expect(app.displayedColumns).toContain('action');
   });
 });
