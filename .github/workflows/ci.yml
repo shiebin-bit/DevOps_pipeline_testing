@@ -143,6 +143,12 @@ jobs:
         working-directory: SpringCRUD
         run: snyk test --severity-threshold=high
 
+      - name: Upload backend dependency snapshot to Snyk dashboard
+        if: env.SNYK_TOKEN != ''
+        continue-on-error: true
+        working-directory: SpringCRUD
+        run: snyk monitor --project-name="${{ github.repository }}-backend"
+
       - name: Install frontend dependencies
         if: env.SNYK_TOKEN != ''
         working-directory: AngularCRUD
@@ -153,6 +159,12 @@ jobs:
         continue-on-error: true
         working-directory: AngularCRUD
         run: snyk test --severity-threshold=high
+
+      - name: Upload frontend dependency snapshot to Snyk dashboard
+        if: env.SNYK_TOKEN != ''
+        continue-on-error: true
+        working-directory: AngularCRUD
+        run: snyk monitor --project-name="${{ github.repository }}-frontend"
 
   docker:
     name: Docker build and GHCR publish

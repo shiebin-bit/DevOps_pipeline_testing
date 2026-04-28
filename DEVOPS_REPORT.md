@@ -91,7 +91,7 @@ Karma is used as the frontend test runner, while Jasmine is used as the frontend
 
 ### 4.7 Snyk
 
-Snyk is used to scan backend and frontend dependencies for known security vulnerabilities. The Snyk API key is stored securely as a GitHub Actions secret named:
+Snyk is used to scan backend and frontend dependencies for known security vulnerabilities. The workflow also runs `snyk monitor` so that dependency snapshots are uploaded to the Snyk dashboard. The Snyk API key is stored securely as a GitHub Actions secret named:
 
 ```text
 SNYK_TOKEN
@@ -422,7 +422,7 @@ The command used is:
 
 This command runs automated quality checks and JaCoCo coverage verification.
 
-Security scanning is performed using Snyk. Snyk checks project dependencies and reports known vulnerabilities. In this demo, Snyk is configured as a reporting step so that vulnerability results can be shown during the demonstration without blocking the entire pipeline unexpectedly.
+Security scanning is performed using Snyk. Snyk checks project dependencies and reports known vulnerabilities. The workflow uses `snyk test` to show scan results in GitHub Actions and `snyk monitor` to upload backend and frontend dependency snapshots to the Snyk dashboard. In this demo, Snyk is configured as a reporting step so that vulnerability results can be shown during the demonstration without blocking the entire pipeline unexpectedly.
 
 ## 9. Containerization and Deployment
 
