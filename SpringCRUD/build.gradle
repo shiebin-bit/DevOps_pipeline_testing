@@ -1,0 +1,93 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.18'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+    id 'checkstyle'
+    id "com.github.spotbugs" version '5.2.5'
+    id 'pmd'
+    id 'jacoco'
+}
+
+group = 'de.bach'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+checkstyle {
+    toolVersion '8.41'
+    ignoreFailures = false
+    maxWarnings = 0
+}
+
+spotbugs {
+    effort = "max"
+    spotbugsTest.enabled = false
+}
+
+spotbugsMain {
+    reports {
+        xml.required.set(false)
+        html.required.set(true)
+    }
+}
+
+pmd {
+    toolVersion = "6.42.0"
+    sourceSets = [sourceSets.main]
+    consoleOutput = true
+    ruleSets = [
+            "category/java/errorprone.xml",
+            "category/java/bestpractices.xml",
+            "category/java/codestyle.xml",
+            "category/java/design.xml",
+            "category/java/multithreading.xml",
+            "category/java/performance.xml",
+            "category/java/security.xml"
+    ]
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.github.spotbugs:spotbugs-annotations:4.6.0'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'com.h2database:h2'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required.set(true)
+        csv.required.set(true)
+        html.required.set(true)
+    }
+    finalizedBy jacocoTestCoverageVerification
+}
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = true
+            limit {
+                minimum = 0.25
+            }
+        }
+    }
+}

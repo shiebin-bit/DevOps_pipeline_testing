@@ -1,0 +1,67 @@
+<h1 mat-dialog-title>Add Book</h1>
+<div mat-dialog-content>
+  <form [formGroup]="bookForm">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input formControlName="bookName" matInput placeholder="Name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>ISBN</mat-label>
+      <input formControlName="isbn" matInput placeholder="ISBN" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Topics</mat-label>
+      <mat-select formControlName="topic" placeholder="Topics">
+        <mat-option value="Java">Java</mat-option>
+        <mat-option value="Angular">Angular</mat-option>
+        <mat-option value="DevOps">DevOps</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Publication Date</mat-label>
+      <input
+        formControlName="publicationDate"
+        matInput
+        [matDatepicker]="picker"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <label for=""><h1>Status</h1></label>
+    <mat-radio-group formControlName="status" class="example-radio-group">
+      <mat-radio-button
+        class="example-radio-button"
+        *ngFor="let status of statusList"
+        [value]="status"
+      >
+        {{ status }}</mat-radio-button
+      >
+    </mat-radio-group>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Price</mat-label>
+      <input
+        formControlName="price"
+        matInput
+        type="number"
+        placeholder="Price"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Comment</mat-label>
+      <textarea formControlName="comment" matInput></textarea>
+    </mat-form-field>
+  </form>
+</div>
+
+<div mat-dialog-actions [align]="'end'">
+  <button mat-raised-button color="warn" mat-dialog-close>Close</button>
+  <button mat-raised-button color="primary" (click)="addBook()">
+    {{ actionBtn }}
+  </button>
+</div>
